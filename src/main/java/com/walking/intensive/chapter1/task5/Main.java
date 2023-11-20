@@ -1,21 +1,45 @@
 package com.walking.intensive.chapter1.task5;
 
-import java.lang.reflect.Array;
 
 /**
  * Условие: <a href="https://geometry-math.ru/homework/Java-triangle.html">ссылка</a>
  */
 public class Main {
     public static void main(String[] args) {
-        printInfo(10, 15, 17);
+        printInfo(11, 21, 24);
+    }
+
+    static String doubleToRoundedString(double val) {
+        return String.format("%.3f", val);
+    }
+
+    static void sortArray(double[] array) {
+        for (int left = 0; left < array.length; left++) {
+            // Вытаскиваем значение элемента
+            double value = array[left];
+            // Перемещаемся по элементам, которые перед вытащенным элементом
+            int i = left - 1;
+            for (; i >= 0; i--) {
+                // Если вытащили значение меньшее — передвигаем больший элемент дальше
+                if (value < array[i]) {
+                    array[i + 1] = array[i];
+                } else {
+                    // Если вытащенный элемент больше — останавливаемся
+                    break;
+                }
+            }
+            // В освободившееся место вставляем вытащенное значение
+            array[i + 1] = value;
+        }
     }
 
     static String arrayToString(double[] arr) {
+        sortArray(arr);
         String result = "[";
         for (int i = 0; i < arr.length; i++) {
-            result = result + arr[i];
+            result = result.concat(doubleToRoundedString(arr[i]));
             if (i + 1 < arr.length) {
-                result = result + ", ";
+                result = result + "; ";
             }
         }
         result = result + "]";
@@ -24,14 +48,14 @@ public class Main {
 
     static void printInfo(double a, double b, double c) {
         String params = "(" + a + ", " + b + ", " + c + ")\t";
-        System.out.println("getAreaByHeron" + params + getAreaByHeron(a, b, c));
+        System.out.println("getAreaByHeron" + params + doubleToRoundedString(getAreaByHeron(a, b, c)));
         System.out.println("getHeights" + params + arrayToString(getHeights(a, b, c)));
         System.out.println("getMedians" + params + arrayToString(getMedians(a, b, c)));
         System.out.println("getBisectors" + params + arrayToString(getBisectors(a, b, c)));
         System.out.println("getAngles" + params + arrayToString(getAngles(a, b, c)));
-        System.out.println("getInscribedCircleRadius" + params + getInscribedCircleRadius(a, b, c));
-        System.out.println("getCircumradius" + params + getCircumradius(a, b, c));
-        System.out.println("getAreaAdvanced" + params + getAreaAdvanced(a, b, c));
+        System.out.println("getInscribedCircleRadius" + params + doubleToRoundedString(getInscribedCircleRadius(a, b, c)));
+        System.out.println("getCircumradius" + params + doubleToRoundedString(getCircumradius(a, b, c)));
+        System.out.println("getAreaAdvanced" + params + doubleToRoundedString(getAreaAdvanced(a, b, c)));
 
     }
 
@@ -49,7 +73,6 @@ public class Main {
      * Располагайте высоты по возрастанию.
      */
     static double[] getHeights(double a, double b, double c) {
-        double p = getHalfOfPerimeter(a, b, c);
         double[] result = new double[3];
         double s = getAreaByHeron(a, b, c);
 
@@ -124,7 +147,8 @@ public class Main {
     }
 
     static double getAreaAdvanced(double a, double b, double c) {
-
-        return a * b * Math.cos(getOneAngleByThreeSides(a, b, c)) / 2; // Заглушка. При реализации - удалить
+        double cosinus = (a * a + b * b - c * c) / (2 * a * b);
+        double sinus = Math.sqrt(1 - cosinus * cosinus);
+        return (a * b * sinus) / 2;
     }
 }

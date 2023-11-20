@@ -1,6 +1,5 @@
 package com.walking.intensive.chapter1.task5;
 
-
 /**
  * Условие: <a href="https://geometry-math.ru/homework/Java-triangle.html">ссылка</a>
  */

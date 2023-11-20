@@ -24,19 +24,18 @@ public class Main {
     }
 
     static boolean isLeap(int year) {
-        if (isValidYear(year)) {
-
-            if (year % 400 == 0) {
-                return true;
-            }
-
-            if (year % 100 == 0) {
-                return false;
-            }
-
-            return year % 4 == 0;
-        } else {
+        if (!isValidYear(year)) {
             throw new IllegalArgumentException("Неверное число");
         }
+
+        if (year % 400 == 0) {
+            return true;
+        }
+
+        if (year % 100 == 0) {
+            return false;
+        }
+
+        return year % 4 == 0;
     }
 }
